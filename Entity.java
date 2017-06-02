@@ -1,11 +1,10 @@
-public abstract Entity{
-  double cX, cY;
-  double rotate;
+public abstract class Entity {
+  private Coordinate location;
+  private double direction;
   double[] vertices;
   double velX, velY;
-   
-  void accelerate;
-  
-  void changeDirection;
 
+  public abstract void accelerate;
+
+  public abstract void changeDirection;
 }

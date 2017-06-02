@@ -1,10 +1,8 @@
 World world;
 
-void setup(){
+void setup() {
   size(1024, 768);
 }
 
-void draw(){
-
-
+void draw() {
 }
