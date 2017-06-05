@@ -3,4 +3,4 @@ Final Project (Spring 2017)
 Michael Cheng
 Charles Weng
 
-this will be a recreation of the classic arcade game: asteroids.
+Our Project will be a recreation of the classic arcade game: asteroids.
