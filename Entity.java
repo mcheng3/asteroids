@@ -1,7 +1,7 @@
-public abstract class Entity {
-  private Coordinate location;
+public abstract class Entity implements Collidable{
+  private Coordinate loc;
   private double direction;
-  double[] vertices;
+  double[][] vertices;
   double velX, velY;
 
   public abstract void accelerate;
