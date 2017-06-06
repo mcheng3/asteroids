@@ -1,3 +1,10 @@
-public class Missile extends Entity implements Collidable {
-  public Missile()
+public class Missile extends Entity{
+  public Missile(){
   
+  }
+  
+  
+  public boolean isCollided(Entity other){
+    return false;
+  }
+}
