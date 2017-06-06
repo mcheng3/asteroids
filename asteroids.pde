@@ -1,4 +1,4 @@
-World world;
+to focWorld world;
 
 void setup() {
   size(1024, 768);
