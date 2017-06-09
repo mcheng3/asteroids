@@ -10,6 +10,6 @@ public class Missile extends Entity{
   public void accelerate(){
   }
 
-  public void changeDirection(){
+  public void changeDirection(float x){
   }
 }

@@ -1,16 +1,14 @@
-public class Asteroid extends Entity{
+class Asteroid extends Entity {
 
-  public Asteroid(){
+  Asteroid() {
   }
-  
-  public boolean isCollided(Entity other){
+
+  boolean isCollided(Entity other) {
     return false;
   }
-  public void accelerate(){
+  void accelerate() {
   }
 
-  public void changeDirection(){
-    
+  void changeDirection(float x) {
   }
 }
-  

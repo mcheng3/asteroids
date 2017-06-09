@@ -1,46 +1,45 @@
-public class Ship extends Entity{
-  
-  public Ship(int x, int y){
-    direction = 0;
-    loc = new Coordinate(x,y);
-    vertices = new PVector[] {new PVector(x,y), new PVector(20+x, 50+y), new PVector(40+x, y)};
+class Ship extends Entity {
+
+  Ship(float x, float y) {
+    direction = 180;
+    s = createShape();
+    s.beginShape();
+    s.fill(153);
+    s.noStroke();
+    s.vertex(0, 0);
+    s.vertex(-20, 50);
+    s.vertex(20, 50);
+    s.endShape(CLOSE);
+    location = new PVector(x, y);
+    velocity = new PVector(0, 0);
   }
 
-  void setup(){
-  }
 
-  void draw(){
-    triangle(vertices[0][0], vertices[0][1], vertices[1][0], vertices[1][1], vertices[2][0], vertices[2][1]);
-    if(keyPressed){
-      if(key == 'w'){
-        vertices[0][1] += 1;
-        vertices[1][1] += 1;
-        vertices[2][1] += 1;
-      }
-      if(key == 's'){
-        vertices[0][1] -= 1;
-        vertices[1][1] -= 1;
-        vertices[2][1] -= 1;
-      }
-      if(key == 'a'){
-        vertices[0][0] += 1;
-        vertices[1][0] += 1;
-        vertices[2][0] += 1;
-      }
-      if(key == 'd'){
-        vertices[0][0] -= 1;
-        vertices[1][0] -= 1;
-        vertices[2][0] -= 1;
-      }
-    }
-  }
-
-  public boolean isCollided(Entity other){
+  public boolean isCollided(Entity other) {
     return false;
   }
-  public void accelerate(){
+
+  void display() {
+    shape(s, location.x, location.y);
   }
 
-  public void changeDirection(){
+  void update() {
+    location.add(velocity);
+    if(location.x > width) location.x %= width;
+    if(location.x < 0) location.x += width;
+    if(location.y > height) location.y %= height;
+    if(location.y < 0) location.y += width;
+    
+  }
+  
+  void accelerate() {
+    PVector temp = new PVector(cos(radians(direction)), sin(radians(direction)));
+    temp.setMag(.3);
+    velocity.add(temp);
+    velocity.limit(1.5);
+  }
+
+  void changeDirection(float x) {
+    direction += x;
   }
 }

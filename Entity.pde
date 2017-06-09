@@ -1,10 +1,10 @@
-public abstract class Entity implements Collidable{
-  public Coordinate loc;
-  public double direction;
-  PVector[] vertices;
-  double velX, velY;
+public abstract class Entity implements Collidable {
+  float  direction;
+  PShape s;
+  PVector location;
+  PVector velocity;
 
   public abstract void accelerate();
 
-  public abstract void changeDirection();
+  public abstract void changeDirection(float x);
 }
