@@ -28,7 +28,7 @@ class Ship extends Entity {
     if(location.x > width) location.x %= width;
     if(location.x < 0) location.x += width;
     if(location.y > height) location.y %= height;
-    if(location.y < 0) location.y += width;
+    if(location.y < 0) location.y += height;
     
   }
   
