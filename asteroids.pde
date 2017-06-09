@@ -13,6 +13,7 @@ void draw() {
   world.display();
 }
 
+/*
 void keyPressed() {
   switch(key) {
   case 'w':
@@ -29,3 +30,4 @@ void keyPressed() {
     break;
   }
 }
+*/

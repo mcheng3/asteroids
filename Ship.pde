@@ -6,9 +6,9 @@ class Ship extends Entity {
     s.beginShape();
     s.fill(153);
     s.noStroke();
-    s.vertex(0, 0);
-    s.vertex(-20, 50);
-    s.vertex(20, 50);
+    s.vertex(0, -20);
+    s.vertex(-20, 30);
+    s.vertex(20, 30);
     s.endShape(CLOSE);
     location = new PVector(x, y);
     velocity = new PVector(0, 0);
@@ -24,6 +24,7 @@ class Ship extends Entity {
   }
 
   void update() {
+    accelerate();
     location.add(velocity);
     if(location.x > width) location.x %= width;
     if(location.x < 0) location.x += width;
@@ -33,10 +34,14 @@ class Ship extends Entity {
   }
   
   void accelerate() {
-    PVector temp = new PVector(cos(radians(direction)), sin(radians(direction)));
+    //PVector temp = new PVector(cos(radians(direction)), sin(radians(direction)));
+    PVector temp = new PVector(mouseX, mouseY);
+    temp.sub(location);
     temp.setMag(.3);
+    direction = degrees(temp.heading()) % 360;
+    println(direction);
     velocity.add(temp);
-    velocity.limit(1.5);
+    velocity.limit(3);
   }
 
   void changeDirection(float x) {
