@@ -1,12 +1,17 @@
 import sprites.*;
+import java.util.ArrayList;
 float shipSpeed, shipRot;
+PApplet p;
 boolean[] keys;
+ArrayList<Missile> missiles = new ArrayList<Missile>();
+
 
 class Ship extends Sprite {
   Ship(PApplet n, double x, double y) {
     super(n, "rocket.png", 0);
     setXY(x, y);
-   keys = new boolean[4];
+    p = n;
+    keys = new boolean[5];
   }
 
 
@@ -18,92 +23,115 @@ class Ship extends Sprite {
       setSpeed(shipSpeed);
     }
     System.out.println("Speed2: " + shipSpeed);
-    update();
+    update(this);
   }
 
   void wrapAround() {
-    if (player.getX() > 1024) {
+    if (getX() > 1024) {
       player.setX(0);
     }
-    if (player.getX() < 0) {
-      player.setX(1024);
+    if (getX() < 0) {
+      setX(1024);
     }
-    if (player.getY() > 768) {
-      player.setY(0);
+    if (getY() > 768) {
+      setY(0);
     }
-    if (player.getY() < 0) {
-      player.setY(768);
+    if (getY() < 0) {
+      setY(768);
     }
   }
 
-/*
-  void update() {
-    accelerate();
-    location.add(velocity);
-    if(location.x > width) location.x %= width;
-    if(location.x < 0) location.x += width;
-    if(location.y > height) location.y %= height;
-    if(location.y < 0) location.y += width;
+  /*
+  void update(this) {
+   accelerate();
+   location.add(velocity);
+   if(location.x > width) location.x %= width;
+   if(location.x < 0) location.x += width;
+   if(location.y > height) location.y %= height;
+   if(location.y < 0) location.y += width;
+   
+   }
+   
+   void accelerate() {
+   //PVector temp = new PVector(cos(radians(direction)), sin(radians(direction)));
+   PVector temp = new PVector(mouseX, mouseY);
+   temp.sub(location);
+   temp.setMag(.3);
+   direction = degrees(temp.heading()) % 360;
+   println(direction);
+   velocity.add(temp);
+   velocity.limit(3);
+   */
 
-  }
-
-  void accelerate() {
-    //PVector temp = new PVector(cos(radians(direction)), sin(radians(direction)));
-    PVector temp = new PVector(mouseX, mouseY);
-    temp.sub(location);
-    temp.setMag(.3);
-    direction = degrees(temp.heading()) % 360;
-    println(direction);
-    velocity.add(temp);
-    velocity.limit(3);
-*/
-
-  void move() {
+  void rotate() {
     float change = 0;
     if (keys[1]) {
-      change =  -0.08;
+      change =  -0.05;
     }
     if (keys[3]) {
-      change = 0.08;
+      change = 0.05;
     }
     shipRot += change;
-
-    change = 0;
-    if (keys[0]) {
-      change = 1.5;
-      shipSpeed += change;
-    }
-
-    if (keys[2]) {
-      decelerate(1.5);
-    }
-    shipSpeed = constrain(shipSpeed, 0, 100);
     setRot(shipRot);
-    setSpeed(shipSpeed, shipRot);
+    update(this);
+  }
+
+  void move() {
+    double change = 0;
+    if (keys[0]) {
+      change = 0.6;
+      shipSpeed += change;
+      shipSpeed = constrain(shipSpeed, 0, 70);
+      setAcceleration(shipSpeed, shipRot);
+    }
 
 
-    update();
+    shipSpeed = constrain(shipSpeed, 0, 70);
+
+    setSpeed(shipSpeed, getDirection());
+
+
+    update(this);
     System.out.println(getX() + " " + getY());
   }
+
+
   void keyPressed() {
     if (key == 'w') keys[0] = true;
     if (key == 'a') keys[1] = true;
     if (key == 's') keys[2] = true;
     if (key == 'd') keys[3] = true;
+    if (key == ' ') keys[4] = true;
+
     //System.out.println(keys[0] + " " + keys[1]+ " " + keys[2]+ " " + keys[3]);
   }
+
 
   void keyReleased() {
     if (key == 'w') keys[0] = false;
     if (key == 'a') keys[1] = false;
     if (key == 's') keys[2] = false;
     if (key == 'd') keys[3] = false;
+    if (key == ' ')keys[4] = false;
+  }
+  void updateMissiles() {
+    for(Missile each: missiles){
+      each.draw();
+      each.update(0.033);
+    }
   }
 
 
+  void update(Sprite s) {   
+    s.setXY(s.getX(), s.getY());
+    update(0.0333);
+  }
 
-  void update() {
-    player.setXY(getX(), getY());
-    player.update(0.0333);
+  void shoot(double x, double y) {
+    
+    if (keys[4]) {
+      System.out.println("SHOOT");
+      missiles.add(new Missile(p, x, y, getRot()));
+    }
   }
 }

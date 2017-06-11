@@ -14,23 +14,22 @@ void setup() {
 }
 
 void draw() {
-  background (200);
-    player.move();
-
+  background (0);
+  player.move();
+  player.updateMissiles();
+  player.shoot(player.getX(), player.getY());
+  player.rotate();
   player.wrapAround();
   player.draw();
-
-  player.decelerate(1);
-
-
+  player.decelerate(0.4);
   player.update(0.0333);
 }
 
-void keyPressed(){
+void keyPressed() {
   player.keyPressed();
 }
 
 
-void keyReleased(){
+void keyReleased() {
   player.keyReleased();
 }

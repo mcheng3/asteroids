@@ -1,12 +1,18 @@
-public class Missile{
-  public Missile(){
-  
-  }
-  
+import sprites.*;
+class Missile extends Sprite {
 
-  public void accelerate(){
+  Missile(PApplet n, double x, double y, double rot) {
+    super(n, "missile.png", 0);
+    setXY(x, y);
+    setRot(rot);
+    setSpeed(100);
+
+  }
+  
+  
+  void update() {
+    setXY(getX(), getY());
+    update(0.0333);
   }
 
-  public void changeDirection(float x){
-  }
 }
