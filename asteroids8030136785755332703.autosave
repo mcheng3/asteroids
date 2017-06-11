@@ -1,0 +1,13 @@
+import sprites.*;
+World world;
+Ship player = new Ship(512,384);
+Sprite ship = new Sprite(this, 
+
+void setup() {
+  size(1024, 768);
+}
+
+void draw() {
+  background(0);
+  player.draw();
+}
