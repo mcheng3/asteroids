@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-class Ship extends Entity {
-
-  Ship(float x, float y) {
-    direction = 180;
-    s = createShape();
-    s.beginShape();
-    s.fill(153);
-    s.noStroke();
-    s.vertex(0, -20);
-    s.vertex(-20, 30);
-    s.vertex(20, 30);
-    s.endShape(CLOSE);
-    location = new PVector(x, y);
-    velocity = new PVector(0, 0);
-=======
 import sprites.*;
 float shipSpeed, shipRot;
 boolean[] keys;
@@ -23,7 +7,6 @@ class Ship extends Sprite {
     super(n, "rocket.png", 0);
     setXY(x, y);
    keys = new boolean[4];
->>>>>>> b8bb8181df35c4c0f3dcec64e3aee6e5c8d1dc39
   }
 
 
@@ -53,7 +36,7 @@ class Ship extends Sprite {
     }
   }
 
-<<<<<<< HEAD
+/*
   void update() {
     accelerate();
     location.add(velocity);
@@ -61,9 +44,9 @@ class Ship extends Sprite {
     if(location.x < 0) location.x += width;
     if(location.y > height) location.y %= height;
     if(location.y < 0) location.y += width;
-    
+
   }
-  
+
   void accelerate() {
     //PVector temp = new PVector(cos(radians(direction)), sin(radians(direction)));
     PVector temp = new PVector(mouseX, mouseY);
@@ -73,7 +56,7 @@ class Ship extends Sprite {
     println(direction);
     velocity.add(temp);
     velocity.limit(3);
-=======
+*/
 
   void move() {
     float change = 0;
@@ -103,10 +86,7 @@ class Ship extends Sprite {
     System.out.println(getX() + " " + getY());
   }
   void keyPressed() {
-    if (key == 'w') {
-      keys[0] = true;
-    }
-
+    if (key == 'w') keys[0] = true;
     if (key == 'a') keys[1] = true;
     if (key == 's') keys[2] = true;
     if (key == 'd') keys[3] = true;
@@ -118,7 +98,6 @@ class Ship extends Sprite {
     if (key == 'a') keys[1] = false;
     if (key == 's') keys[2] = false;
     if (key == 'd') keys[3] = false;
->>>>>>> b8bb8181df35c4c0f3dcec64e3aee6e5c8d1dc39
   }
 
 
