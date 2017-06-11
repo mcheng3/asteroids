@@ -1,18 +1,19 @@
 import sprites.*;
 float shipSpeed, shipRot;
-boolean isW, isA, isS, isD = false;
+boolean[] keys;
 
 class Ship extends Sprite {
   Ship(PApplet n, double x, double y) {
     super(n, "rocket.png", 0);
     setXY(x, y);
+   keys = new boolean[4];
   }
 
 
   void decelerate(double value) {
     System.out.println("Speed: " + shipSpeed);
     if (shipSpeed > 0) {
-      if(shipSpeed <= value) shipSpeed -= shipSpeed;
+      if (shipSpeed <= value) shipSpeed -= shipSpeed;
       else shipSpeed -= value;
       setSpeed(shipSpeed);
     }
@@ -38,44 +39,47 @@ class Ship extends Sprite {
 
   void move() {
     float change = 0;
-    if (isA) {
-      change =  -0.05;
-       shipRot += change;
-    setRot(shipRot);
+    if (keys[1]) {
+      change =  -0.08;
     }
-    if (isD) {
-      change = 0.05;
-       shipRot += change;
-    setRot(shipRot);
+    if (keys[3]) {
+      change = 0.08;
     }
+    shipRot += change;
 
     change = 0;
-    if (isW) {
-      change = 5;
+    if (keys[0]) {
+      change = 1.5;
       shipSpeed += change;
+    }
 
+    if (keys[2]) {
+      decelerate(1.5);
+    }
+    shipSpeed = constrain(shipSpeed, 0, 100);
+    setRot(shipRot);
     setSpeed(shipSpeed, shipRot);
-    }
-    if (isS) {
-      decelerate(2.1);
-    }
-    
+
 
     update();
     System.out.println(getX() + " " + getY());
   }
   void keyPressed() {
-    if (key == 'w') isW = true;
-    if (key == 'a') isA = true;
-    if (key == 's') isS = true;
-    if (key == 'd') isD = true;
+    if (key == 'w') {
+      keys[0] = true;
+    }
+
+    if (key == 'a') keys[1] = true;
+    if (key == 's') keys[2] = true;
+    if (key == 'd') keys[3] = true;
+    //System.out.println(keys[0] + " " + keys[1]+ " " + keys[2]+ " " + keys[3]);
   }
 
   void keyReleased() {
-    if (key == 'w') isW = false;
-    if (key == 'a') isA = false;
-    if (key == 's') isS = false;
-    if (key == 'd') isD = false;
+    if (key == 'w') keys[0] = false;
+    if (key == 'a') keys[1] = false;
+    if (key == 's') keys[2] = false;
+    if (key == 'd') keys[3] = false;
   }
 
 

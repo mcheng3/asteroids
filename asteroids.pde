@@ -15,15 +15,21 @@ void setup() {
 
 void draw() {
   background (200);
+    player.move();
+
   player.wrapAround();
   player.draw();
-  player.move();
+  
   player.decelerate(1);
-  player.keyReleased();
+  
 
   player.update(0.0333);
 }
 
 void keyPressed(){
   player.keyPressed();
+}
+
+void keyReleased(){
+  player.keyReleased();
 }
