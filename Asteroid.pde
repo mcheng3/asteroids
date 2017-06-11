@@ -1,11 +1,8 @@
-class Asteroid extends Entity {
+class Asteroid {
 
   Asteroid() {
   }
 
-  boolean isCollided(Entity other) {
-    return false;
-  }
   void accelerate() {
   }
 

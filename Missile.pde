@@ -1,12 +1,9 @@
-public class Missile extends Entity{
+public class Missile{
   public Missile(){
   
   }
   
-  
-  public boolean isCollided(Entity other){
-    return false;
-  }
+
   public void accelerate(){
   }
 
