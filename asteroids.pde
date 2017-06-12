@@ -9,7 +9,7 @@ Ship player;
 int lives, score;
 //when you lose
 boolean gameOver;
-//what the 'enemies are'
+//what the 'enemies" are
 ArrayList<Asteroid> rocks;
 
 
@@ -28,21 +28,21 @@ void setup() {
   player.setPoints(0);
 
   //add 4 random rocks
-  rocks.add( new Asteroid(this, random(1024), random(768), Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
+  rocks.add( new Asteroid(this, random(1024), random(768), random(6.28), 1));
+  rocks.add( new Asteroid(this, random(1024), random(768), random(6.28), 1));
+  rocks.add( new Asteroid(this, random(1024), random(768), random(6.28), 1));
+  rocks.add( new Asteroid(this, random(1024), random(768), random(6.28), 1));
+  rocks.add( new Asteroid(this, random(1024), random(768), random(6.28), 1));
 }
 
 void draw() {
 
   if (rocks.size() == 0) {
-    rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+    rocks.add( new Asteroid(this, random(1024), random(768), random(6.28), 1));
+    rocks.add( new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
+    rocks.add( new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
+    rocks.add( new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
+    rocks.add( new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
   }
 
   System.out.println("lives: " + lives);
