@@ -1,6 +1,6 @@
 //gets sprite library and arraylists
 import sprites.*;
-import java.lang.Math;
+import java.lang.*;
 import java.util.ArrayList;
 
 //what you control
