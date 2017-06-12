@@ -4,6 +4,7 @@ float shipSpeed, shipRot;
 PApplet p;
 boolean[] keys;
 ArrayList<Missile> missiles = new ArrayList<Missile>();
+int time = 0;
 
 
 class Ship extends Sprite {
@@ -28,7 +29,7 @@ class Ship extends Sprite {
 
   void wrapAround() {
     if (getX() > 1024) {
-      player.setX(0);
+      setX(0);
     }
     if (getX() < 0) {
       setX(1024);
@@ -74,12 +75,14 @@ class Ship extends Sprite {
     shipRot += change;
     setRot(shipRot);
     update(this);
+    System.out.println("Rot: "+ getRot());
   }
 
   void move() {
+    time -= 1;
     double change = 0;
     if (keys[0]) {
-      change = 0.6;
+      change = 2;
       shipSpeed += change;
       shipSpeed = constrain(shipSpeed, 0, 70);
       setAcceleration(shipSpeed, shipRot);
@@ -114,10 +117,14 @@ class Ship extends Sprite {
     if (key == 'd') keys[3] = false;
     if (key == ' ')keys[4] = false;
   }
-  void updateMissiles() {
-    for(Missile each: missiles){
+  void updateMissiles(Sprite rock) {
+    for (Missile each : missiles) {
       each.draw();
       each.update(0.033);
+      if (each.pp_collision(rock)) {
+        rock.setVisible(false);
+
+      }
     }
   }
 
@@ -125,13 +132,16 @@ class Ship extends Sprite {
   void update(Sprite s) {   
     s.setXY(s.getX(), s.getY());
     update(0.0333);
+    
   }
 
-  void shoot(double x, double y) {
-    
-    if (keys[4]) {
-      System.out.println("SHOOT");
-      missiles.add(new Missile(p, x, y, getRot()));
+  void shoot(double x, double y, double theta) {
+    if (time < 0) {
+      if (keys[4]) {
+        System.out.println("SHOOT");
+        missiles.add(new Missile(p, x, y, theta));
+        time = 14;
+      }
     }
   }
 }
