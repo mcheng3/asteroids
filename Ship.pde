@@ -78,7 +78,7 @@ class Ship extends Sprite {
     System.out.println("Rot: "+ getRot());
   }
 
-  void move() {
+  void accelerate() {
     time -= 1;
     double change = 0;
     if (keys[0]) {
@@ -117,15 +117,21 @@ class Ship extends Sprite {
     if (key == 'd') keys[3] = false;
     if (key == ' ')keys[4] = false;
   }
-  void updateMissiles(Sprite rock) {
+  int updateMissiles(Asteroid rock) {
+    int points = 0;
     for (Missile each : missiles) {
       each.draw();
       each.update(0.033);
       if (each.pp_collision(rock)) {
-        rock.setVisible(false);
-
+        if(rock.getLevel() > 1){
+          rock.split();
+        }
+        else rock.setVisible(false);
+        points +=50;
       }
+      
     }
+    return points;
   }
 
 

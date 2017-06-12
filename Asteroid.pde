@@ -1,6 +1,6 @@
 import sprites.*;
 class Asteroid extends Sprite {
-
+  int level = 1;
   Asteroid(PApplet n, double x, double y, double rot) {
     super(n, "asteroid.png", 0);
     //Move if asteroid spawn on ship
@@ -37,6 +37,14 @@ class Asteroid extends Sprite {
 
   void accelerate() {
   }
+  
+  int getLevel(){
+    return level;
+  }
+  
+  ArrayList<Asteroid> split(){
+    
+    
 
   void changeDirection(float x) {
   }
