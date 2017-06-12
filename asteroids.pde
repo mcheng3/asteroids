@@ -50,7 +50,7 @@ void draw() {
 
     player.shoot(player.getX(), player.getY(), player.getRot());
 
-    player.decelerate(0.65);
+    player.decelerate(1);
     player.update(0.0333);
   } else {
     background(0);
