@@ -1,5 +1,6 @@
 //gets sprite library and arraylists
 import sprites.*;
+import java.lang.*;
 import java.util.ArrayList;
 
 //what you control
@@ -42,7 +43,6 @@ void draw() {
     rocks.add(new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
   }
 
-  //println("lives: " + lives);
   if (lives >= 0) {
     //still alive -> redraw board
     //text
@@ -100,10 +100,10 @@ void drawAsteroids() {
     //draw it
     each.draw();
     each.update();
-    
+
     //missiles hit it
     additions.addAll(player.updateMissiles(each));
-    
+
     //player hits it
     if (player.pp_collision(each)) {
       //delete both, respawn player
@@ -114,13 +114,13 @@ void drawAsteroids() {
       trash.add(each);
       respawn();
     }
-    
+
     //delete non visible ones
     if (!each.isVisible()) {
       trash.add(each);
     }
   }
-  
+
   //updates array of rocks
   rocks.removeAll(trash);
   rocks.addAll(additions);

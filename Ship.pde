@@ -7,7 +7,7 @@ class Ship extends Sprite {
   PApplet p;
   float shipSpeed, shipRot;
   boolean[] keys = new boolean[5]; //[w a s d space]  //what keys are pressed (s not used)
-  int points; 
+  int points;
   ArrayList<Missile> missiles = new ArrayList<Missile>(); //array of the missles you shoot
   int time = 0; //cooldown of missle
 
@@ -41,6 +41,7 @@ class Ship extends Sprite {
     setSpeed(shipSpeed, shipRot);
     update(.0333);
     //println(getX() + " " + getY());
+
   }
 
 
@@ -50,11 +51,11 @@ class Ship extends Sprite {
     if (!isOnScreem()) {
       if (getX() > 1024)
         setX(0);
-      if (getX() < 0) 
+      if (getX() < 0)
         setX(1024);
       if (getY() > 768)
         setY(0);
-      if (getY() < 0) 
+      if (getY() < 0)
         setY(768);
     }
   }
@@ -65,7 +66,7 @@ class Ship extends Sprite {
     //keys for changing rotation
     if (keys[1])
       change =  -0.05;
-    if (keys[3]) 
+    if (keys[3])
       change = 0.05;
     shipRot += change;
     setRot(shipRot);
@@ -74,13 +75,13 @@ class Ship extends Sprite {
   }
 
   //records the pressed keys
+
   void keyPressed() {
     if (key == 'w') keys[0] = true;
     if (key == 'a') keys[1] = true;
     if (key == 's') keys[2] = true;
     if (key == 'd') keys[3] = true;
     if (key == ' ') keys[4] = true;
-    //println(keys[0] + " " + keys[1]+ " " + keys[2]+ " " + keys[3]);
   }
   void keyReleased() {
     if (key == 'w') keys[0] = false;
@@ -95,13 +96,13 @@ class Ship extends Sprite {
   ArrayList<Asteroid> updateMissiles(Asteroid rock) {
     ArrayList<Asteroid> additions = new ArrayList<Asteroid>();
     ArrayList<Missile> trash = new ArrayList<Missile>();
-    
+
     //check if missle is visible
     for (Missile x : missiles) {
       if (!x.isVisible()) {
         trash.add(x);
       }
-      
+
       //check if it collides with a rock
       if (x.pp_collision(rock)) {
         //split rock if big enough and then kill collided objects
@@ -112,12 +113,12 @@ class Ship extends Sprite {
         x.setVisible(false);
         trash.add(x);
         points +=50;
-        
+
         //stop checking if other missles collide with this rock
         break;
       }
     }
-    
+
     //remove the missles add the extra rocks
     missiles.removeAll(trash);
     return additions;
@@ -130,7 +131,6 @@ class Ship extends Sprite {
   void shoot(double x, double y, double theta) {
     if (time < 0)
       if (keys[4]) {
-        //println("SHOOT");
         missiles.add(new Missile(p, x, y, theta));
         time = 13;
       }
