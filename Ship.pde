@@ -3,6 +3,7 @@ import java.util.ArrayList;
 float shipSpeed, shipRot;
 PApplet p;
 boolean[] keys;
+int points;
 ArrayList<Missile> missiles = new ArrayList<Missile>();
 int time = 0;
 
@@ -82,7 +83,7 @@ class Ship extends Sprite {
     time -= 1;
     double change = 0;
     if (keys[0]) {
-      change = 2;
+      change = 2.0;
       shipSpeed += change;
       shipSpeed = constrain(shipSpeed, 0, 70);
       setAcceleration(shipSpeed, shipRot);
@@ -117,24 +118,33 @@ class Ship extends Sprite {
     if (key == 'd') keys[3] = false;
     if (key == ' ')keys[4] = false;
   }
-  int updateMissiles(Asteroid rock) {
-    int points = 0;
+  ArrayList<Asteroid> updateMissiles(Asteroid rock) {
+    ArrayList<Asteroid> additions = new ArrayList<Asteroid>();
     for (Missile each : missiles) {
       each.draw();
-      each.update(0.033);
+      each.update(0.001);
       if (each.pp_collision(rock)) {
-        if(rock.getLevel() > 1){
-          rock.split();
+        if(rock.getLevel() < 3){
+          additions.addAll(rock.split());
+          rock.setVisible(false);
         }
         else rock.setVisible(false);
         points +=50;
       }
+     
       
     }
-    return points;
+    return additions;
   }
 
-
+  
+  int getPoints(){
+    return points;
+  }
+  void setPoints(int n){
+    points = n;
+  }
+  
   void update(Sprite s) {   
     s.setXY(s.getX(), s.getY());
     update(0.0333);

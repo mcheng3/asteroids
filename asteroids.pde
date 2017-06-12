@@ -10,7 +10,9 @@ boolean gameOver;
 int score;
 
 void setup() {
+
   score = 0;
+
   rocks = new ArrayList<Asteroid>();
   gameOver = false;
   lives = 2;
@@ -18,21 +20,22 @@ void setup() {
   background(0);
   world = new World();
   player = new Ship(this, 512, 384);
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
+  player.setPoints(0);
+  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
 }
 
 void draw() {
 
-  if (rocks.size() == 1) {
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28));
+  if (rocks.size() == 0) {
+    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
   }
 
   System.out.println("lives: " + lives);
@@ -49,7 +52,7 @@ void draw() {
 
     player.shoot(player.getX(), player.getY(), player.getRot());
 
-    player.decelerate(1);
+    player.decelerate(0.65);
     player.update(0.0333);
   } else {
     background(0);
@@ -58,6 +61,8 @@ void draw() {
     textSize(50);
     text("NO MORE LIVES", 320, 284);
     text("Press 'h' to play again", 250, 450);
+    textSize(40);
+    text(score, 10, 50);
     if (keyPressed) {
       if (key == 'h') {
         setup();
@@ -68,14 +73,16 @@ void draw() {
 
 void drawAsteroids() {
   ArrayList<Asteroid> trash = new ArrayList<Asteroid>();
+  ArrayList<Asteroid> additions = new ArrayList<Asteroid>();
   for (Asteroid each : rocks) {
     each.draw();
     each.update();
-    score += player.updateMissiles(each);
     collision(each);
-    if (!each.isVisible()) trash.add(each);
+    score = player.getPoints();
+    additions.addAll(player.updateMissiles(each));
   }
   rocks.removeAll(trash);
+  rocks.addAll(additions);
 }
 
 void collision(Asteroid x) {
