@@ -1,4 +1,5 @@
 import sprites.*;
+
 class Asteroid extends Sprite {
   int level;
   PApplet p;

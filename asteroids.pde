@@ -1,37 +1,44 @@
+//gets sprite library and arraylists
 import sprites.*;
 import java.lang.Math;
 import java.util.ArrayList;
 
-World world;
+//what you control
 Ship player;
-int xPos, lives;
-ArrayList<Asteroid> rocks;
+//what is displayed 
+int lives, score;
+//when you lose
 boolean gameOver;
-int score;
+//what the 'enemies are'
+ArrayList<Asteroid> rocks;
+
 
 void setup() {
-
+  
+  //variable initialization
   score = 0;
-
   rocks = new ArrayList<Asteroid>();
   gameOver = false;
   lives = 2;
   size(1024, 768);
   background(0);
-  world = new World();
+  
+  //spawn player at center
   player = new Ship(this, 512, 384);
   player.setPoints(0);
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+  
+  //add 4 random rocks
+  rocks.add( new Asteroid(this, random(1024), random(768), Math.random() * 6.28, 1));
+  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
+  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
+  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
+  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
 }
 
 void draw() {
 
   if (rocks.size() == 0) {
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+    rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
     rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
     rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
     rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));

@@ -1,4 +1,5 @@
 import sprites.*;
+
 class Missile extends Sprite {
 
   Missile(PApplet n, double x, double y, double rot) {
