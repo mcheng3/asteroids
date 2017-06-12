@@ -18,13 +18,13 @@ class Ship extends Sprite {
 
 
   void decelerate(double value) {
-    System.out.println("Speed: " + shipSpeed);
+    //////System.out.println("Speed: " + shipSpeed);
     if (shipSpeed > 0) {
       if (shipSpeed <= value) shipSpeed -= shipSpeed;
       else shipSpeed -= value;
       setSpeed(shipSpeed);
     }
-    System.out.println("Speed2: " + shipSpeed);
+    ////////System.out.println("Speed2: " + shipSpeed);
     update(this);
   }
 
@@ -76,7 +76,7 @@ class Ship extends Sprite {
     shipRot += change;
     setRot(shipRot);
     update(this);
-    System.out.println("Rot: "+ getRot());
+    ////////System.out.println("Rot: "+ getRot());
   }
 
   void accelerate() {
@@ -96,7 +96,7 @@ class Ship extends Sprite {
 
 
     update(this);
-    System.out.println(getX() + " " + getY());
+    //////System.out.println(getX() + " " + getY());
   }
 
 
@@ -107,7 +107,7 @@ class Ship extends Sprite {
     if (key == 'd') keys[3] = true;
     if (key == ' ') keys[4] = true;
 
-    //System.out.println(keys[0] + " " + keys[1]+ " " + keys[2]+ " " + keys[3]);
+    ////////System.out.println(keys[0] + " " + keys[1]+ " " + keys[2]+ " " + keys[3]);
   }
 
 
@@ -159,7 +159,7 @@ class Ship extends Sprite {
   void shoot(double x, double y, double theta) {
     if (time < 0) {
       if (keys[4]) {
-        System.out.println("SHOOT");
+        //////System.out.println("SHOOT");
         missiles.add(new Missile(p, x, y, theta));
         time = 14;
       }

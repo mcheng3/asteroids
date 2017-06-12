@@ -45,7 +45,7 @@ void draw() {
     rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
   }
 
-  System.out.println("lives: " + lives);
+  //System.out.println("lives: " + lives);
   if (lives >= 0) {
     background (0);
     textSize(40);
