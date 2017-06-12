@@ -1,15 +1,21 @@
 import sprites.*;
+//sprite constructor needs a reference plane, image name, and draw order
 
 class Asteroid extends Sprite {
-  int level;
-  PApplet p;
+  int level; //size of the rock. bigger = smaller
+  PApplet p; //reference to the sketch
+  
+  
   Asteroid(PApplet n, double x, double y, double rot, int level) {
     super(n, "asteroid.png", 0);
     this.level = level;
     p = n;
+    
     //Move if asteroid spawn on ship
     if (x > 420 && x< 610) x +=200;
     if (y > 280 && x< 480) y +=200;
+    
+    //sets initial variables
     setXY(x, y);
     setRot(rot);
     setScale(0.25);
@@ -31,26 +37,30 @@ class Asteroid extends Sprite {
     }
   }
 
+  //updates the asteroid
   void update() {
     wrapAround();
+    setRot(getRot() + random(.025, .05));
     setXY(getX(), getY());
     update(0.0333);
   }
 
-  void accelerate() {
-  }
 
-  int getLevel() {
-    return level;
-  }
-
+  //splits the asteroid into smaller ones
   ArrayList<Asteroid> split() {
     ArrayList<Asteroid> splitRocks = new ArrayList<Asteroid>();
+
+    //removes original
     setVisible(false);
-    splitRocks.add(new Asteroid(p, getX() - 100, getY(), getRot() - 0.6, level+ 1));
-    splitRocks.add(new Asteroid(p, getX(), getY(), getRot(), level + 1));
-    splitRocks.get(0).setScale(getScale() * 0.7);
-    splitRocks.get(1).setScale(getScale() * 0.7);
+
+    //add new ones up to 3
+    for (int i = 0; i < random(4); i ++)
+      splitRocks.add(new Asteroid(p, getX() + random(-100, 100), getY(), getRot() + random(6.28), level+ 1));
+
+    //makes each of the new rocks smaller
+    for (Asteroid x : splitRocks)
+      x.setScale(getScale() * 0.7);
+
     return splitRocks;
   }
 }

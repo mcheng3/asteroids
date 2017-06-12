@@ -1,5 +1,8 @@
 import sprites.*;
 import java.util.ArrayList;
+
+
+
 float shipSpeed, shipRot;
 PApplet p;
 boolean[] keys;
@@ -128,7 +131,7 @@ class Ship extends Sprite {
       each.draw();
       each.update();
       if (each.pp_collision(rock)) {
-        if(rock.getLevel() < 3){
+        if(rock.level < 3){
           additions.addAll(rock.split());
           rock.setVisible(false);
         }
