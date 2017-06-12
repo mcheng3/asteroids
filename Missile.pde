@@ -5,14 +5,14 @@ class Missile extends Sprite {
     super(n, "missile.png", 0);
     setXY(x, y);
     setRot(rot);
-    setSpeed(700);
+    setSpeed(2000);
 
   }
   
   
   void update() {
     setXY(getX(), getY());
-    update(0.001);
+    update(0.01);
   }
 
 }

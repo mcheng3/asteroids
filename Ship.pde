@@ -83,7 +83,7 @@ class Ship extends Sprite {
     time -= 1;
     double change = 0;
     if (keys[0]) {
-      change = 2.0;
+      change = 2;
       shipSpeed += change;
       shipSpeed = constrain(shipSpeed, 0, 70);
       setAcceleration(shipSpeed, shipRot);
