@@ -80,6 +80,10 @@ void drawAsteroids() {
     collision(each);
     score = player.getPoints();
     additions.addAll(player.updateMissiles(each));
+    player.updateMissiles(each);
+    if(!each.isVisible()){
+      trash.add(each);
+    }
   }
   rocks.removeAll(trash);
   rocks.addAll(additions);
