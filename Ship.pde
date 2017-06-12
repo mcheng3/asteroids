@@ -120,9 +120,13 @@ class Ship extends Sprite {
   }
   ArrayList<Asteroid> updateMissiles(Asteroid rock) {
     ArrayList<Asteroid> additions = new ArrayList<Asteroid>();
+    ArrayList<Missile> trash = new ArrayList<Missile>();
     for (Missile each : missiles) {
+      if(!each.isVisible()){
+        trash.add(each);
+      }
       each.draw();
-      each.update(0.001);
+      each.update();
       if (each.pp_collision(rock)) {
         if(rock.getLevel() < 3){
           additions.addAll(rock.split());
@@ -134,6 +138,7 @@ class Ship extends Sprite {
      
       
     }
+    missiles.removeAll(trash);
     return additions;
   }
 

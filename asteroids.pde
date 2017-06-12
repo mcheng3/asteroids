@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 //what you control
 Ship player;
-//what is displayed 
+//what is displayed
 int lives, score;
 //when you lose
 boolean gameOver;
@@ -14,7 +14,7 @@ ArrayList<Asteroid> rocks;
 
 
 void setup() {
-  
+
   //variable initialization
   score = 0;
   rocks = new ArrayList<Asteroid>();
@@ -22,11 +22,11 @@ void setup() {
   lives = 2;
   size(1024, 768);
   background(0);
-  
+
   //spawn player at center
   player = new Ship(this, 512, 384);
   player.setPoints(0);
-  
+
   //add 4 random rocks
   rocks.add( new Asteroid(this, random(1024), random(768), Math.random() * 6.28, 1));
   rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
@@ -55,11 +55,11 @@ void draw() {
     player.draw();
     player.accelerate();
     player.rotate();
-    player.wrapAround(); 
+    player.wrapAround();
 
     player.shoot(player.getX(), player.getY(), player.getRot());
 
-    player.decelerate(0.65);
+    player.decelerate(1);
     player.update(0.0333);
   } else {
     background(0);
@@ -87,6 +87,10 @@ void drawAsteroids() {
     collision(each);
     score = player.getPoints();
     additions.addAll(player.updateMissiles(each));
+    player.updateMissiles(each);
+    if(!each.isVisible()){
+      trash.add(each);
+    }
   }
   rocks.removeAll(trash);
   rocks.addAll(additions);
