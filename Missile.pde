@@ -1,14 +1,14 @@
 import sprites.*;
 
 class Missile extends Sprite {
-  int life = 750;
+  int life = 450;
 
   //constructor references the screen, xy cor and the rotation the missle is in
   Missile(PApplet n, double x, double y, double rot) {
     super(n, "missile.png", 0);
     setXY(x, y);
     setRot(rot);
-    setSpeed(100);
+    setSpeed(50);
   }
 
   //wraps the missle around the screen
@@ -33,6 +33,6 @@ class Missile extends Sprite {
     else
       life --;
     setXY(getX(), getY());
-    update(0.01);
+    update(0.0333);
   }
 }

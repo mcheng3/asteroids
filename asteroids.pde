@@ -24,8 +24,7 @@ void setup() {
   background(0);
 
   //spawn player at center
-  player = new Ship(this, 512, 384);
-  player.setPoints(0);
+  player = new Ship(this, 512, 384, 0);
 
   //add 4 random rocks
   rocks.add( new Asteroid(this, random(1024), random(768), random(6.28), 1));
@@ -36,7 +35,7 @@ void setup() {
 }
 
 void draw() {
-
+  player.time -= 1;
   if (rocks.size() == 0) {
     rocks.add( new Asteroid(this, random(1024), random(768), random(6.28), 1));
     rocks.add( new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
@@ -85,7 +84,7 @@ void drawAsteroids() {
     each.draw();
     each.update();
     collision(each);
-    score = player.getPoints();
+    score = player.points;
     additions.addAll(player.updateMissiles(each));
     player.updateMissiles(each);
     if(!each.isVisible()){
@@ -103,7 +102,7 @@ void collision(Asteroid x) {
 }
 
 void reset() {
-  player = new Ship(this, 512, 384);
+  player = new Ship(this, 512, 384, 0);
   lives--;
 }
 

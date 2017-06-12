@@ -12,7 +12,7 @@ class Asteroid extends Sprite {
     p = n;
     
     //Move if asteroid spawn on ship
-    if (x > 420 && x< 610) x +=200;
+   if (x > 420 && x< 610) x +=200;
     if (y > 280 && x< 480) y +=200;
     
     //sets initial variables
@@ -40,7 +40,7 @@ class Asteroid extends Sprite {
   //updates the asteroid
   void update() {
     wrapAround();
-    setRot(getRot() + random(.025, .05));
+    setRot(getRot() + random(.01, .03));
     setXY(getX(), getY());
     update(0.0333);
   }
@@ -53,9 +53,9 @@ class Asteroid extends Sprite {
     //removes original
     setVisible(false);
 
-    //add new ones up to 3
-    for (int i = 0; i < random(4); i ++)
-      splitRocks.add(new Asteroid(p, getX() + random(-100, 100), getY(), getRot() + random(6.28), level+ 1));
+    //add new ones up to 3. less likely for 3
+    for (int i = 0; i < random(35, 80) / 35; i ++)
+      splitRocks.add(new Asteroid(p, getX() + random(-30, 30), getY() + random(-30, 30), getRot() + random(6.28), level+ 1));
 
     //makes each of the new rocks smaller
     for (Asteroid x : splitRocks)
