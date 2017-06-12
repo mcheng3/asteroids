@@ -1,5 +1,5 @@
 import sprites.*;
-//sprite constructor needs a reference plane, image name, and draw order
+//sprite constructor references sketch, image name, and draw order
 
 class Asteroid extends Sprite {
   int level; //size of the rock. bigger = smaller
@@ -10,10 +10,6 @@ class Asteroid extends Sprite {
     super(n, "asteroid.png", 0);
     this.level = level;
     p = n;
-    
-    //Move if asteroid spawn on ship
-   if (x > 420 && x< 610) x +=200;
-    if (y > 280 && x< 480) y +=200;
     
     //sets initial variables
     setXY(x, y);

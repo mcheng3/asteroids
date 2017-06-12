@@ -1,4 +1,5 @@
 import sprites.*;
+//sprite constructor references sketch, image name, and draw order
 import java.util.ArrayList;
 
 
@@ -25,7 +26,7 @@ class Ship extends Sprite {
     if (shipSpeed < 0)
       shipSpeed = 0;
     setSpeed(shipSpeed);
-    update(this);
+    update(.0333);
   }
 
   //speeds up ship by 2 if w is pressed
@@ -38,7 +39,7 @@ class Ship extends Sprite {
     }
 
     setSpeed(shipSpeed, shipRot);
-    update(this);
+    update(.0333);
     //println(getX() + " " + getY());
   }
 
@@ -68,7 +69,7 @@ class Ship extends Sprite {
       change = 0.05;
     shipRot += change;
     setRot(shipRot);
-    update(this);
+    update(.0333);
     //println("Rot: "+ getRot());
   }
 
@@ -94,16 +95,13 @@ class Ship extends Sprite {
   ArrayList<Asteroid> updateMissiles(Asteroid rock) {
     ArrayList<Asteroid> additions = new ArrayList<Asteroid>();
     ArrayList<Missile> trash = new ArrayList<Missile>();
+    
     //check if missle is visible
     for (Missile x : missiles) {
       if (!x.isVisible()) {
         trash.add(x);
       }
-
-      //draw it
-      x.draw();
-      x.update();
-
+      
       //check if it collides with a rock
       if (x.pp_collision(rock)) {
         //split rock if big enough and then kill collided objects
@@ -115,7 +113,7 @@ class Ship extends Sprite {
         trash.add(x);
         points +=50;
         
-        //stop checking if other missles collife with this rock
+        //stop checking if other missles collide with this rock
         break;
       }
     }
@@ -126,11 +124,6 @@ class Ship extends Sprite {
   }
 
 
-  //updates said sprite
-  void update(Sprite s) {   
-    s.setXY(s.getX(), s.getY());
-    update(0.0333);
-  }
 
 
   //shoot a missle in said location and direction and set a cooldown on shooting
@@ -139,7 +132,7 @@ class Ship extends Sprite {
       if (keys[4]) {
         //println("SHOOT");
         missiles.add(new Missile(p, x, y, theta));
-        time = 14;
+        time = 13;
       }
   }
 }

@@ -1,14 +1,15 @@
 import sprites.*;
+//sprite constructor references sketch, image name, and draw order
 
 class Missile extends Sprite {
-  int life = 450;
+  int life = 60;
 
   //constructor references the screen, xy cor and the rotation the missle is in
   Missile(PApplet n, double x, double y, double rot) {
     super(n, "missile.png", 0);
     setXY(x, y);
     setRot(rot);
-    setSpeed(50);
+    setSpeed(350);
   }
 
   //wraps the missle around the screen
