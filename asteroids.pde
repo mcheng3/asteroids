@@ -2,7 +2,6 @@ import sprites.*;
 import java.lang.Math;
 import java.util.ArrayList;
 
-World world;
 Ship player;
 int xPos, lives;
 ArrayList<Asteroid> rocks;
@@ -18,7 +17,6 @@ void setup() {
   lives = 2;
   size(1024, 768);
   background(0);
-  world = new World();
   player = new Ship(this, 512, 384);
   player.setPoints(0);
   rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
