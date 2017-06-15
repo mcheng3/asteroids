@@ -1,22 +1,20 @@
 //gets sprite library and arraylists
 import sprites.*;
-import java.lang.*;
 import java.util.ArrayList;
+
 
 //what you control
 Ship player;
 //what is displayed
-int lives, score;
-//when you lose
+int lives;
 boolean gameOver;
-//what the 'enemies are'
+//stores enemies
 ArrayList<Asteroid> rocks;
 
 
 void setup() {
 
   //variable initialization
-  score = 0;
   rocks = new ArrayList<Asteroid>();
   gameOver = false;
   lives = 2;
@@ -24,44 +22,57 @@ void setup() {
   background(0);
 
   //spawn player at center
-  player = new Ship(this, 512, 384);
-  player.setPoints(0);
+  player = new Ship(this, 512, 384, 0);
 
-  //add 4 random rocks
-  rocks.add( new Asteroid(this, random(1024), random(768), Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
-  rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
+  //add 5 random rocks (away from center)
+  rocks.add(new Asteroid(this, random(0, 420), random(480, 768), random(6.28), 1));
+  rocks.add(new Asteroid(this, random(0, 420), random(0, 280), random(6.28), 1));
+  rocks.add(new Asteroid(this, random(610, 1024), random(480, 768), random(6.28), 1));
+  rocks.add(new Asteroid(this, random(610, 1024), random(480, 768), random(6.28), 1));
+  rocks.add(new Asteroid(this, random(610, 1024), random(0, 280), random(6.28), 1));
 }
 
 void draw() {
 
+  //ruthlessly spawn in more rocks after you kill them all
   if (rocks.size() == 0) {
-    rocks.add( new Asteroid(this, random(1024), Math.random() * 768, Math.random() * 6.28, 1));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
-    rocks.add( new Asteroid(this, Math.random() * 1024, Math.random() * 768, Math.random() * 6.28, 1));
+    rocks.add(new Asteroid(this, random(1024), random(768), random(6.28), 1));
+    rocks.add(new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
+    rocks.add(new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
+    rocks.add(new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
+    rocks.add(new Asteroid(this, Math.random() * 1024, random(768), random(6.28), 1));
   }
 
-  //System.out.println("lives: " + lives);
   if (lives >= 0) {
+    //still alive -> redraw board
+    //text
     background (0);
     textSize(40);
-    text(score, 10, 50);
+    text(player.points, 10, 50);
     text("Lives:" + lives, 300, 50);
+
+    //helper that  updates asteroids
     drawAsteroids();
-    player.draw();
+
+    //update player
     player.accelerate();
     player.rotate();
     player.wrapAround();
+    player.time -= 1;
+    player.decelerate(1);
+    player.draw();
+    player.update(0.0333);
 
+    //shots fired?
     player.shoot(player.getX(), player.getY(), player.getRot());
 
-    player.decelerate(1);
-    player.update(0.0333);
+    //update missles
+    for (Missile x : player.missiles) {
+      x.draw();
+      x.update();
+    }
   } else {
+    //you died -> display death screen
     background(0);
     textSize(100);
     text("Game Over", 250, 384);
@@ -69,7 +80,9 @@ void draw() {
     text("NO MORE LIVES", 320, 284);
     text("Press 'h' to play again", 250, 450);
     textSize(40);
-    text(score, 10, 50);
+    text(player.points, 10, 50);
+
+    //wait for restart
     if (keyPressed) {
       if (key == 'h') {
         setup();
@@ -78,40 +91,53 @@ void draw() {
   }
 }
 
+//checks for each asteroid
 void drawAsteroids() {
   ArrayList<Asteroid> trash = new ArrayList<Asteroid>();
   ArrayList<Asteroid> additions = new ArrayList<Asteroid>();
+
   for (Asteroid each : rocks) {
+    //draw it
     each.draw();
     each.update();
-    collision(each);
-    score = player.getPoints();
+
+    //missiles hit it
     additions.addAll(player.updateMissiles(each));
-    player.updateMissiles(each);
-    if(!each.isVisible()){
+
+    //player hits it
+    if (player.pp_collision(each) && each.isVisible()) {
+      //delete both, respawn player
+      if (each.level < 3) {
+        additions.addAll(each.split());
+      }
+      each.setVisible(false);
+      trash.add(each);
+      respawn();
+    }
+
+    //delete non visible ones
+    if (!each.isVisible()) {
       trash.add(each);
     }
   }
+
+  //updates array of rocks
   rocks.removeAll(trash);
   rocks.addAll(additions);
 }
 
-void collision(Asteroid x) {
-  if (player.pp_collision(x)) {
-    reset();
-  }
-}
 
-void reset() {
-  player = new Ship(this, 512, 384);
+//player repawn at center
+void respawn() {
+  player = new Ship(this, 512, 384, player.points);
   lives--;
 }
 
+
+//passes key presses to ship
 void keyPressed() {
   player.keyPressed();
 }
-
-
 void keyReleased() {
   player.keyReleased();
 }

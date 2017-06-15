@@ -1,168 +1,135 @@
 import sprites.*;
+//sprite constructor references sketch, image name, and draw order
 import java.util.ArrayList;
-float shipSpeed, shipRot;
-PApplet p;
-boolean[] keys;
-int points;
-ArrayList<Missile> missiles = new ArrayList<Missile>();
-int time = 0;
 
 
 class Ship extends Sprite {
-  Ship(PApplet n, double x, double y) {
+  PApplet p;
+  float shipSpeed, shipRot;
+  boolean[] keys = new boolean[5]; //[w a s d space]  //what keys are pressed (s not used)
+  int points, time;
+  ArrayList<Missile> missiles = new ArrayList<Missile>(); //array of the missles you shoot
+
+  //constructor references sketcch, xy cor, and current points
+  Ship(PApplet n, double x, double y, int points) {
     super(n, "rocket.png", 0);
     setXY(x, y);
     p = n;
-    keys = new boolean[5];
+    this.points = points;
   }
 
 
+  // lowers ship speed by a value
   void decelerate(double value) {
-    //////System.out.println("Speed: " + shipSpeed);
-    if (shipSpeed > 0) {
-      if (shipSpeed <= value) shipSpeed -= shipSpeed;
-      else shipSpeed -= value;
-      setSpeed(shipSpeed);
-    }
-    ////////System.out.println("Speed2: " + shipSpeed);
-    update(this);
+    shipSpeed -= value;
+    if (shipSpeed < 0)
+      shipSpeed = 0;
+    setSpeed(shipSpeed);
+    update(.0333);
   }
 
-  void wrapAround() {
-    if (getX() > 1024) {
-      setX(0);
-    }
-    if (getX() < 0) {
-      setX(1024);
-    }
-    if (getY() > 768) {
-      setY(0);
-    }
-    if (getY() < 0) {
-      setY(768);
-    }
-  }
-
-  /*
-  void update(this) {
-   accelerate();
-   location.add(velocity);
-   if(location.x > width) location.x %= width;
-   if(location.x < 0) location.x += width;
-   if(location.y > height) location.y %= height;
-   if(location.y < 0) location.y += width;
-   
-   }
-   
-   void accelerate() {
-   //PVector temp = new PVector(cos(radians(direction)), sin(radians(direction)));
-   PVector temp = new PVector(mouseX, mouseY);
-   temp.sub(location);
-   temp.setMag(.3);
-   direction = degrees(temp.heading()) % 360;
-   println(direction);
-   velocity.add(temp);
-   velocity.limit(3);
-   */
-
-  void rotate() {
-    float change = 0;
-    if (keys[1]) {
-      change =  -0.05;
-    }
-    if (keys[3]) {
-      change = 0.05;
-    }
-    shipRot += change;
-    setRot(shipRot);
-    update(this);
-    ////////System.out.println("Rot: "+ getRot());
-  }
-
+  //speeds up ship by 2 if w is pressed
   void accelerate() {
-    time -= 1;
-    double change = 0;
     if (keys[0]) {
-      change = 2;
-      shipSpeed += change;
+      shipSpeed += 2;
       shipSpeed = constrain(shipSpeed, 0, 70);
       setAcceleration(shipSpeed, shipRot);
+      shipSpeed = constrain(shipSpeed, 0, 70);
     }
 
+    setSpeed(shipSpeed, shipRot);
+    update(.0333);
+    //println(getX() + " " + getY());
 
-    shipSpeed = constrain(shipSpeed, 0, 70);
-
-    setSpeed(shipSpeed, getDirection());
-
-
-    update(this);
-    //////System.out.println(getX() + " " + getY());
   }
 
 
+
+  //wraps the ship around the board
+  void wrapAround() {
+    if (!isOnScreem()) {
+      if (getX() > 1024)
+        setX(0);
+      if (getX() < 0)
+        setX(1024);
+      if (getY() > 768)
+        setY(0);
+      if (getY() < 0)
+        setY(768);
+    }
+  }
+
+  //checks if the player is rotating the ship
+  void rotate() {
+    float change = 0;
+    //keys for changing rotation
+    if (keys[1])
+      change =  -0.05;
+    if (keys[3])
+      change = 0.05;
+    shipRot += change;
+    setRot(shipRot);
+    update(.0333);
+    //println("Rot: "+ getRot());
+  }
+
+  //records the pressed keys
   void keyPressed() {
     if (key == 'w') keys[0] = true;
     if (key == 'a') keys[1] = true;
     if (key == 's') keys[2] = true;
     if (key == 'd') keys[3] = true;
     if (key == ' ') keys[4] = true;
-
-    ////////System.out.println(keys[0] + " " + keys[1]+ " " + keys[2]+ " " + keys[3]);
-  }
-
-
-  void keyReleased() {
+  }void keyReleased() {
     if (key == 'w') keys[0] = false;
     if (key == 'a') keys[1] = false;
     if (key == 's') keys[2] = false;
     if (key == 'd') keys[3] = false;
     if (key == ' ')keys[4] = false;
   }
+
+
+  //checks each missles around a rock
   ArrayList<Asteroid> updateMissiles(Asteroid rock) {
     ArrayList<Asteroid> additions = new ArrayList<Asteroid>();
     ArrayList<Missile> trash = new ArrayList<Missile>();
-    for (Missile each : missiles) {
-      if(!each.isVisible()){
-        trash.add(each);
+
+    //check if missle is visible
+    for (Missile x : missiles) {
+      if (!x.isVisible()) {
+        trash.add(x);
       }
-      each.draw();
-      each.update();
-      if (each.pp_collision(rock)) {
-        if(rock.getLevel() < 3){
+
+      //check if it collides with a rock
+      if (x.pp_collision(rock)) {
+        //split rock if big enough and then kill collided objects
+        if (rock.level < 3) {
           additions.addAll(rock.split());
-          rock.setVisible(false);
         }
-        else rock.setVisible(false);
+        rock.setVisible(false);
+        x.setVisible(false);
+        trash.add(x);
         points +=50;
+
+        //stop checking if other missles collide with this rock
+        break;
       }
-     
-      
     }
+
+    //remove the missles add the extra rocks
     missiles.removeAll(trash);
     return additions;
   }
 
-  
-  int getPoints(){
-    return points;
-  }
-  void setPoints(int n){
-    points = n;
-  }
-  
-  void update(Sprite s) {   
-    s.setXY(s.getX(), s.getY());
-    update(0.0333);
-    
-  }
 
+
+
+  //shoot a missle in said location and direction and set a cooldown on shooting
   void shoot(double x, double y, double theta) {
-    if (time < 0) {
+    if (time < 0)
       if (keys[4]) {
-        //////System.out.println("SHOOT");
         missiles.add(new Missile(p, x, y, theta));
-        time = 14;
+        time = 13;
       }
-    }
   }
 }
