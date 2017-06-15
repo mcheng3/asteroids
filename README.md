@@ -11,4 +11,6 @@ Development Stages:
 06/05 - 06/06: Work out how to check for collisions  
 06/06 - 06/07: Implement shooting and lives/ starting a game/ game over  
 06/08: Clean up the interfaces  
-Extensions!!!  
+Extensions!!!    
+  
+Both of our commits were sometimes under a different username due to an unknown reason  
